@@ -29,7 +29,7 @@
                     <br>
                     <br>
                     {% if exame.resultado %}
-                        <a style="width: 100%;" href="" target="__blank"><div  style="width: 100%;" id="pdf-container">Seu exame aqui</div></a>
+                        <a style="width: 100%;" href="{{exame.resultado.url}}" target="__blank"><div  style="width: 100%;" id="pdf-container"></div></a>
                     {% endif %}
             </div>
             <div class="col-md-6">
@@ -51,5 +51,26 @@
         </div>
         
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script>
+
+        const container = document.getElementById('pdf-container');
+
+        pdfjsLib.getDocument("{% url 'proxy_pdf' exame.id %}").promise.then(pdf => {
+            pdf.getPage(1).then(page => {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 0.6 });
+
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                page.render({ canvasContext: context, viewport }).promise.then(() => {
+                    container.appendChild(canvas);
+                });
+            });
+        });
+    </script>
 
 {% endblock 'conteudo' %}
