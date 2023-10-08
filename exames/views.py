@@ -98,6 +98,7 @@ def solicitar_senha_exame(request, exame_id):
         senha = request.POST.get("senha")
 				#TODO: validar se o exame é do usuário
         if senha == exame.senha:
+                #TODO: verificar se tem o PDF do resultado
             return redirect(exame.resultado.url)
         else:
             messages.add_message(request, constants.ERROR, 'Senha inválida')
