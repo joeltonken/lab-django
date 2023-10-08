@@ -77,4 +77,7 @@ class AcessoMedico(models.Model):
     def status(self):
         return 'Expirado' if timezone.now() > (self.criado_em + timedelta(hours=self.tempo_de_acesso)) else 'Ativo'
     
-    
+    @property
+    def url(self):
+    #TODO: reverse
+        return f"http://127.0.0.1:8000/exames/acesso_medico/{self.token}"

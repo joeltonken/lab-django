@@ -87,8 +87,7 @@ def permitir_abrir_exame(request, exame_id):
 
     else: 
         return redirect(f'/exames/solicitar_senha_exame/{exame.id}')
-    
-    
+        
 @login_required
 def solicitar_senha_exame(request, exame_id):
     exame = SolicitacaoExame.objects.get(id=exame_id)
@@ -128,3 +127,14 @@ def gerar_acesso_medico(request):
 
         messages.add_message(request, constants.SUCCESS, 'Acesso gerado com sucesso')
         return redirect('/exames/gerar_acesso_medico')
+    
+def acesso_medico(request, token):
+    acesso_medico = AcessoMedico.objects.get(token = token)
+
+    if acesso_medico.status == 'Expirado':
+        messages.add_message(request, constants.WARNING, 'Esse token já se expirou, solicite outro.')
+        return redirect('/usuarios/login')
+
+    pedidos = PedidosExames.objects.filter(data__gte = acesso_medico.data_exames_iniciais).filter(data__lte = acesso_medico.data_exames_finais).filter(usuario=acesso_medico.usuario)
+
+    return render(request, 'acesso_medico.html', {'pedidos': pedidos})
