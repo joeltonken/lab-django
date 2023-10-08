@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.contrib.admin.views.decorators import staff_member_required
+from exames.models import SolicitacaoExame
 
 @staff_member_required 
 def gerenciar_clientes(request):
@@ -19,4 +20,11 @@ def gerenciar_clientes(request):
         ).filter(full_name__contains=nome_completo)
 
 
-    return render(request, 'gerenciar_clientes.html', {'clientes': clientes, 'nome_completo': nome_completo, 'email': email})
+    return render(request, 'gerenciar_clientes.html', {'clientes': clientes}) 
+    #depois de clientes, 'nome_completo': nome_completo, 'email': email
+
+@staff_member_required 
+def cliente(request, cliente_id):
+    cliente = User.objects.get(id=cliente_id)
+    exames = SolicitacaoExame.objects.filter(usuario=cliente)
+    return render(request, 'cliente.html', {'cliente': cliente, 'exames': exames})
