@@ -107,7 +107,7 @@ def solicitar_senha_exame(request, exame_id):
 @login_required
 def gerar_acesso_medico(request):
     if request.method == "GET":
-        acessos_medicos = AcessoMedico.objects.filter(usuario =request. user)
+        acessos_medicos = AcessoMedico.objects.filter(usuario=request.user)
         return render(request, 'gerar_acesso_medico.html', {'acessos_medicos': acessos_medicos})
     elif request.method == "POST":
         identificacao = request.POST.get('identificacao')
