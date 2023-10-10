@@ -26,8 +26,11 @@ def cadastro(request):
             messages.add_message(request, constants.ERROR, 'Sua senha deve ter 7 ou mais dígitos') 
             return redirect('/usuarios/cadastro')
         
+        if User.objects.filter(username=username).exists():
+            messages.add_message(request, constants.ERROR, 'Usuário já existente com esse username')
+            return redirect('/usuarios/cadastro')
+        
         try:
-            # TODO: Validar se o username do usuário não existe
             # Username deve ser único!
             user = User.objects.create_user(
                 first_name=primeiro_nome,
@@ -62,4 +65,3 @@ def logar(request):
             messages.add_message(request, constants.ERROR, 'Usuario ou senha inválidos')
             return redirect('/usuarios/login')
         
-
