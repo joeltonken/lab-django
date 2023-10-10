@@ -16,39 +16,35 @@ git clone https://github.com/joeltonken/lab-django.git
 ```
    
 2. Acesse o diretório do projeto:
-
    
 ```
-    cd lab-django
+cd lab-django
 ```
 
 3. Crie um ambiente virtual e ative-o:
-
    
 ```    
-    python -m venv venv
-    source venv/bin/activate
+python -m venv venv
+    
+venv/Scripts/Activate
 ```
 
 4. Instale as dependências do projeto:
-
    
 ```
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 5. Execute as migrações do banco de dados:
-
    
 ```
-    python manage.py migrate
+python manage.py migrate
 ```
 
 6. Inicie o servidor de desenvolvimento:
-
    
 ```
-    python manage.py runserver
+python manage.py runserver
 ```
   
 7. Acesse o aplicativo em seu navegador através do endereço `http://localhost:8000`.
